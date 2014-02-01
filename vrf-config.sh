@@ -1,9 +1,11 @@
 #!/bin/bash
 #
-#Created by: Brett Johnson
-#Date      : FEB 2012
-#Function  : Provide the config for a vrf and the relevant info
-#            for bgp if their is no neighbour
+# Created by: Brett Johnson
+# Date      : FEB 2012
+# Function  : Provide the config for a vrf and the relevant info
+#             for bgp if their is no neighbour
+#
+# Start
 #
 
 echo -n "Name of the vrf : "
@@ -29,3 +31,6 @@ echo -e "address-family ipv4 vrf $vrf_name"
 echo -e "redistribute connected"
 echo -e "redistribute static"
 echo -e "no synchronization\n"
+
+# End
+

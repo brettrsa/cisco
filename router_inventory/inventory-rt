@@ -1,0 +1,28 @@
+#!/bin/sh
+# 
+# Shell Script to generate Cisco Router Inventory
+# This references the /etc/hosts file, in this instance, we are
+# looking for entries that have the a specific format eg. '192.168.1.1   test-router  test-router.me.com  # sai-crt'
+# The output is then passed through an awk script for formatting
+#
+# Start
+
+source=/etc/hosts
+router=/usr/local/var/rancid/routers/configs/
+tmp=/tmp/inv-tmp
+format=/usr/local/sbin/inventory-rt-awk
+
+# Generate device spesific content
+
+for item in `grep sai-crt $source | egrep -v 'ctn' | awk '{print $2}'` ; do
+	host=`grep $item $source | awk '{print $3}'`
+	model=`grep "\!Chassis type:" $router$item | awk '{print $3}'`
+	serial=`grep "\!Processor ID:" $router$item | awk '{print $3}'`
+	code=`grep "\!Image: Software:" $router$item | awk -F ", " '{print $2}'`
+	echo $host $model $serial $code >> $tmp
+done
+
+$format $tmp
+rm $tmp
+
+# End

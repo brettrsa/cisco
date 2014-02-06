@@ -1,0 +1,28 @@
+#!/bin/sh
+#
+# Shell Script to generate Cisco Switch Inventory
+# This references the /etc/hosts file, in this instance, we are
+# looking for entries that have the a specific format eg. '192.168.1.1   test-switch  test-switch.me.com  # sai-sw'
+# The output is then passed through an awk script for formatting
+#
+# Start
+
+source=/etc/hosts
+switch=/usr/local/var/rancid/switches/configs/
+tmp=/tmp/inv-sw-tmp
+format=/usr/local/sbin/inventory-sw-awk
+
+# Generate device specific content
+
+for item in `grep sai-csw $source | awk '{print $2}'` ; do
+	host=`grep $item $source | awk '{print $3}'`
+	model=`grep "\!Chassis type:" $switch$item | awk '{print $3}'`
+	serial=`grep "\!Processor ID:" $switch$item | awk '{print $3}'`
+	code=`grep "\!Image: Software:" $switch$item | awk -F ", " '{print $2}'`
+	echo $host $model $serial $code >> $tmp
+done
+
+$format $tmp
+rm $tmp
+
+# End

@@ -14,7 +14,7 @@ format=/usr/local/sbin/inventory-rt-awk
 
 # Generate device spesific content
 
-for item in `grep sai-crt $source | egrep -v 'ctn' | awk '{print $2}'` ; do
+for item in `grep sai-crt $source | awk '{print $2}'` ; do
 	host=`grep $item $source | awk '{print $3}'`
 	model=`grep "\!Chassis type:" $router$item | awk '{print $3}'`
 	serial=`grep "\!Processor ID:" $router$item | awk '{print $3}'`

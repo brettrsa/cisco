@@ -1,5 +1,5 @@
 cisco
 =====
 
-This is a set of scripts that are used on Cisco devices :)
-The script contains a description of it's function
+This is a set of scripts that relate to Cisco devices :)
+Each script contains a description of it's function.
